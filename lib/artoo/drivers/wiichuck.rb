@@ -2,7 +2,7 @@ require 'artoo/drivers/wiidriver'
 
 module Artoo
   module Drivers
-    # Wiichuck driver behaviors for Firmata
+    # Wiichuck driver behaviors for i2c
     class Wiichuck < Wiidriver
 
       # Update button and joystick values

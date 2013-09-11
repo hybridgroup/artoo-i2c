@@ -2,7 +2,7 @@ require 'artoo/drivers/driver'
 
 module Artoo
   module Drivers
-    # Wii-based controller shared driver behaviors for Firmata
+    # Wii-based controller shared driver behaviors for i2c
     class Wiidriver < Driver
       attr_reader :joystick, :data
 
@@ -18,14 +18,14 @@ module Artoo
       # Starts drives and required connections
       def start_driver
         begin
-          connection.i2c_config(0)
+          connection.i2c_start(address)
+
           every(interval) do
-            connection.i2c_write_request(address, 0x40, 0x00)
-            connection.i2c_write_request(address, 0x00, 0x00)
-            connection.i2c_read_request(address, 6)
+            connection.i2c_write(0x40, 0x00)
+            connection.i2c_write(0x00, 0x00)
+            new_value = connection.i2c_read(6)
             
-            connection.read_and_process
-            handle_events
+            update(new_value) if !new_value.nil?
           end
 
           super
@@ -46,22 +46,7 @@ module Artoo
         @data = parse(value)
       end
 
-      def handle_events
-        while i = find_event(:i2c_reply) do
-          event = events.slice!(i)
-          update(event.data.first) if !event.nil?
-        end
-      end
-
       protected
-
-      def find_event(name)
-        events.index {|e| e.name == name}
-      end
-
-      def events
-        connection.async_events
-      end
 
       def get_defaults
         {}

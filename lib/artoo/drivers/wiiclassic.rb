@@ -2,7 +2,7 @@ require 'artoo/drivers/wiidriver'
 
 module Artoo
   module Drivers
-    # Wiiclassic driver behaviors for Firmata
+    # Wiiclassic driver behaviors for i2c
     class Wiiclassic < Wiidriver
 
       # Update buttons and joysticks values
