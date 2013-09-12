@@ -19,10 +19,10 @@ module Artoo
       def start_driver
         begin
           connection.i2c_start(address)
+          connection.i2c_write(0x40, 0x00)
 
-          every(interval) do
-            connection.i2c_write(0x40, 0x00)
-            connection.i2c_write(0x00, 0x00)
+          every(interval) do  
+            connection.i2c_write(0x00)
             new_value = connection.i2c_read(6)
             
             update(new_value) if !new_value.nil?
