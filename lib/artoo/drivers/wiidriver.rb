@@ -77,7 +77,7 @@ module Artoo
       end
 
       def get_value(value, index)
-        value[:data][index]
+        value[index]
       end
 
       def generate_bool(value)
