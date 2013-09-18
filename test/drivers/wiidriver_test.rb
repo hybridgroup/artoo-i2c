@@ -25,13 +25,13 @@ describe Artoo::Drivers::Wiidriver do
     @driver.calculate_joystick_value(:test_axis, :test_origin).must_equal 3
   end
 
-  it 'Artoo::Drivers::Wiidriver#encrypted?' do
-    value = {:data => [0, 0, 0, 0, 0, 0]}
+  it 'Artoo::Drivers::Wiidriver#encrypted? when all same' do
+    value = [0, 0, 0, 0, 0, 0]
     @driver.encrypted?(value).must_equal true
   end
 
-  it 'Artoo::Drivers::Wiidriver#encrypted?' do
-    value = {:data => [1, 2, 3, 4, 5, 6]}
+  it 'not Artoo::Drivers::Wiidriver#encrypted? with all different data' do
+    value = [1, 2, 3, 4, 5, 6]
     @driver.encrypted?(value).must_equal false
   end
 
@@ -42,7 +42,7 @@ describe Artoo::Drivers::Wiidriver do
   end
 
   it 'Artoo::Drivers::Wiidriver#get_value' do
-    value = {:data => [1, 2, 3, 4, 5, 6], :other_data => [10, 20, 30, 40, 50, 60]}
+    value = [1, 2, 3, 4, 5, 6]
     @driver.get_value(value, 1).must_equal 2
     @driver.get_value(value, 5).must_equal 6
   end
