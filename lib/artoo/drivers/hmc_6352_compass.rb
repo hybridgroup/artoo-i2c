@@ -16,12 +16,12 @@ module Artoo
       def start_driver
         begin
           connection.i2c_start(address)
-
+          connection.i2c_write("A".bytes.first)
+          
           every(interval) do
-            connection.i2c_write("A")
+            connection.i2c_write("A".bytes.first)
             new_value = connection.i2c_read(2)
-            
-            update(new_value) if !new_value.nil?
+            update(new_value) unless new_value.nil? || new_value.empty?
           end
 
           super
@@ -32,16 +32,18 @@ module Artoo
         end
       end
 
-      def update(value)
-        @heading = parse(value)
-        publish(event_topic_name("update"), "heading", @heading)
-        publish(event_topic_name("heading"), @heading)
+      def update(val)
+        puts val.inspect
+        return if val == "bad byte"
+        @heading = parse(val)
+        publish(event_topic_name("update"), "heading", heading)
+        publish(event_topic_name("heading"), heading)
       end
 
       protected
 
-      def parse(value)
-        value
+      def parse(val=[0, 0])
+        val[0] + val[1] * 256
       end
     end
   end
