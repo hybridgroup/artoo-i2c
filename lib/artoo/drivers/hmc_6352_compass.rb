@@ -4,6 +4,8 @@ module Artoo
   module Drivers
     # Hmc6352 digital compass driver behaviors for i2c
     class Hmc6352Compass < Driver
+      COMMANDS = [:heading].freeze
+      
       attr_reader :heading
 
       def address; 0x42; end
