@@ -15,9 +15,9 @@ module Artoo
 
       def start_driver
         begin
-          connection.i2c_start(address)
+          connection.i2c_start(address >> 1)
           connection.i2c_write("A".bytes.first)
-          
+
           every(interval) do
             connection.i2c_write("A".bytes.first)
             new_value = connection.i2c_read(2)
@@ -34,7 +34,7 @@ module Artoo
 
       def update(val)
         puts val.inspect
-        return if val == "bad byte"
+        return if val.nil? || val == "bad byte"
         @heading = parse(val)
         publish(event_topic_name("update"), "heading", heading)
         publish(event_topic_name("heading"), heading)
@@ -43,7 +43,7 @@ module Artoo
       protected
 
       def parse(val=[0, 0])
-        val[0] + val[1] * 256
+        (val[1] + val[0] * 256) / 10.0
       end
     end
   end
