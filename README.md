@@ -27,8 +27,10 @@ puts "Example here"
 ## Devices supported
 
 The following i2c hardware devices have driver support:
-- Wiichuck
-- Wiiclassic
+- BlinkM RGB LED
+- HMC6352 Digial Compass
+- Wii Nunchuck Controller
+- Wii Classic Controller
 
 
 ## Contributing
