@@ -1,7 +1,13 @@
 # Commands
 
-## heading → float
+## heading 
 
-Public: Returns the heading data for the compass.
+Returns the heading data for the compass.
 
-** Returns nil **
+##### Params
+
+`no params`
+
+##### Returns
+
+`float`
